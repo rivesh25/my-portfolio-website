@@ -1,0 +1,345 @@
+"use client";
+
+import { useState, useRef } from "react";
+
+
+
+export default function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("sending");
+    // Simulate async send
+    await new Promise((r) => setTimeout(r, 1500));
+    setStatus("sent");
+    setForm({ name: "", email: "", message: "" });
+    setTimeout(() => setStatus("idle"), 4000);
+  };
+
+  return (
+    <section id="contact" className="section">
+      <div className="container">
+        <div className="animate-fade-in-up" style={{ textAlign: "center", marginBottom: "60px" }}>
+          <span className="tag" style={{ justifyContent: "center" }}>Contact</span>
+          <h2 className="section-title" style={{ textAlign: "center" }}>
+            Let&apos;s Build Something Together
+          </h2>
+          <p
+            style={{
+              fontSize: "1.0625rem",
+              color: "var(--text-secondary)",
+              maxWidth: "500px",
+              margin: "0 auto",
+              lineHeight: 1.75,
+            }}
+          >
+            Have a project in mind, or just want to say hi? My inbox is always
+            open — I&apos;ll get back to you within 24 hours.
+          </p>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "1300px", margin: "0 auto", padding: "0 24px" }}>
+        <div
+          className="animate-fade-in-up delay-100 contact-bg-container"
+          style={{
+            width: "100%",
+            margin: "0 auto",
+            borderRadius: "24px",
+            overflow: "hidden",
+            position: "relative",
+            padding: "60px 5%",
+            boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          {/* Background Image Layer */}
+          <div
+            className="contact-bg-image"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: "url('/contact-bg.jpg') center/cover no-repeat",
+              zIndex: 0,
+              transition: "filter 0.5s ease",
+            }}
+          />
+
+          {/* Contact form aligned to the right */}
+          <div
+            className="card glass"
+            style={{
+              position: "relative",
+              zIndex: 1,
+              padding: "40px",
+              width: "100%",
+              maxWidth: "500px",
+              background: "rgba(20, 20, 20, 0.6)", // Slightly darker glass for contrast against image
+              backdropFilter: "blur(12px)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+            }}
+          >
+            <h3
+              style={{
+                fontSize: "24px",
+                fontWeight: 700,
+                marginBottom: "8px",
+                textAlign: "center",
+              }}
+            >
+              Send me a message
+            </h3>
+            <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginBottom: "32px", textAlign: "center" }}>
+              Fill out the form below and I&apos;ll be in touch soon.
+            </p>
+
+            {status === "sent" ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "16px",
+                  padding: "48px 0",
+                  textAlign: "center",
+                }}
+              >
+                <div style={{ fontSize: "52px" }}>🎉</div>
+                <h4 style={{ fontSize: "20px", fontWeight: 700 }}>Message sent!</h4>
+                <p style={{ color: "var(--text-secondary)", fontSize: "14px" }}>
+                  Thanks for reaching out. I&apos;ll get back to you soon.
+                </p>
+              </div>
+            ) : (
+              <form
+                ref={formRef}
+                onSubmit={handleSubmit}
+                style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+              >
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "16px",
+                  }}
+                  className="form-row"
+                >
+                  <div>
+                    <label
+                      htmlFor="contact-name"
+                      style={{
+                        display: "block",
+                        fontSize: "13px",
+                        fontWeight: 500,
+                        color: "var(--text-secondary)",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      Your Name
+                    </label>
+                    <input
+                      id="contact-name"
+                      type="text"
+                      required
+                      placeholder="John Doe"
+                      value={form.name}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, name: e.target.value }))
+                      }
+                      style={{
+                        width: "100%",
+                        padding: "12px 16px",
+                        background: "rgba(0,0,0,0.4)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        borderRadius: "10px",
+                        color: "var(--text-primary)",
+                        fontSize: "14px",
+                        outline: "none",
+                        transition: "all 0.2s ease",
+                        fontFamily: "inherit",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "rgba(56, 189, 248, 0.6)";
+                        e.target.style.background = "rgba(0,0,0,0.6)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "rgba(255,255,255,0.1)";
+                        e.target.style.background = "rgba(0,0,0,0.4)";
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="contact-email-input"
+                      style={{
+                        display: "block",
+                        fontSize: "13px",
+                        fontWeight: 500,
+                        color: "var(--text-secondary)",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      Email Address
+                    </label>
+                    <input
+                      id="contact-email-input"
+                      type="email"
+                      required
+                      placeholder="john@example.com"
+                      value={form.email}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, email: e.target.value }))
+                      }
+                      style={{
+                        width: "100%",
+                        padding: "12px 16px",
+                        background: "rgba(0,0,0,0.4)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        borderRadius: "10px",
+                        color: "var(--text-primary)",
+                        fontSize: "14px",
+                        outline: "none",
+                        transition: "all 0.2s ease",
+                        fontFamily: "inherit",
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = "rgba(56, 189, 248, 0.6)";
+                        e.target.style.background = "rgba(0,0,0,0.6)";
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = "rgba(255,255,255,0.1)";
+                        e.target.style.background = "rgba(0,0,0,0.4)";
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="contact-message"
+                    style={{
+                      display: "block",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: "var(--text-secondary)",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    required
+                    rows={5}
+                    placeholder="Tell me about your project..."
+                    value={form.message}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, message: e.target.value }))
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "14px 16px",
+                      background: "rgba(0,0,0,0.4)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      borderRadius: "10px",
+                      color: "var(--text-primary)",
+                      fontSize: "14px",
+                      outline: "none",
+                      transition: "all 0.2s ease",
+                      fontFamily: "inherit",
+                      resize: "vertical",
+                      lineHeight: 1.7,
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = "rgba(56, 189, 248, 0.6)";
+                      e.target.style.background = "rgba(0,0,0,0.6)";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "rgba(255,255,255,0.1)";
+                      e.target.style.background = "rgba(0,0,0,0.4)";
+                    }}
+                  />
+                </div>
+
+                <button
+                  id="submit-contact-form"
+                  type="submit"
+                  disabled={status === "sending"}
+                  className="btn btn-primary"
+                  style={{
+                    width: "100%",
+                    justifyContent: "center",
+                    opacity: status === "sending" ? 0.7 : 1,
+                    marginTop: "10px",
+                    background: "rgba(56, 189, 248, 0.9)",
+                  }}
+                >
+                  {status === "sending" ? (
+                    <>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{ animation: "spin-slow 1s linear infinite" }}
+                      >
+                        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                      </svg>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="m22 2-7 20-4-9-9-4 20-7z" />
+                      </svg>
+                      Send Message
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        .contact-bg-image {
+          filter: grayscale(100%);
+        }
+        .contact-bg-container:hover .contact-bg-image {
+          filter: grayscale(0%);
+        }
+        @media (max-width: 768px) {
+          .form-row {
+            grid-template-columns: 1fr !important;
+          }
+        }
+        @keyframes spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
+    </section>
+  );
+}
