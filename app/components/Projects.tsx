@@ -64,8 +64,6 @@ const projects = [
   },
 ];
 
-const categories = ["All", "Full Stack", "DevOps", "AI / ML"];
-
 export default function Projects() {
   return (
     <section id="projects" className="section" style={{ paddingBottom: "40px" }}>
@@ -97,7 +95,7 @@ export default function Projects() {
             justifyItems: "center",
           }}
         >
-          {projects.map((project, i) => (
+          {projects.map((project) => (
             <TiltedCard
               key={project.id}
               imageSrc="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="

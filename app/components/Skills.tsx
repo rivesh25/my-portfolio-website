@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import FuzzyText from "./FuzzyText";
 
 const skillsData = [
@@ -146,12 +147,12 @@ export default function Skills() {
                       e.currentTarget.style.borderColor = "var(--border)";
                     }}
                   >
-                    <img
+                    <Image
                       src={skill.icon}
                       alt={skill.name}
+                      width={40}
+                      height={40}
                       style={{
-                        width: "40px",
-                        height: "40px",
                         objectFit: "contain",
                       }}
                     />

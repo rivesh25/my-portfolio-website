@@ -50,13 +50,13 @@ const experiences = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="section">
+    <section id="experience">
       <div
         style={{
           background: "var(--bg-2)",
           borderTop: "1px solid var(--border)",
           borderBottom: "1px solid var(--border)",
-          padding: "100px 0",
+          padding: "80px 0",
         }}
       >
         <div className="container">

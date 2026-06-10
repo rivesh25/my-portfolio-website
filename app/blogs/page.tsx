@@ -1,7 +1,7 @@
 "use client";
 
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import { Component as FlickeringFooter } from "../components/FlickeringFooter";
 import MagicBento from "../components/MagicBento";
 
 const allBlogs = [
@@ -253,8 +253,7 @@ export default function BlogsPage() {
           </div>
         </section>
       </main>
-
-      <Footer />
+      <FlickeringFooter />
     </>
   );
 }

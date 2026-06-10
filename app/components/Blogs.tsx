@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import FuzzyText from "./FuzzyText";
 
 const latestBlogs = [
   {
@@ -47,14 +46,9 @@ export default function Blogs() {
           }}
         >
           <span className="tag">Insights</span>
-          <FuzzyText
-            baseIntensity={0.2}
-            hoverIntensity={0.5}
-            enableHover
-            fontSize="clamp(2.5rem, 5vw, 3.5rem)"
-          >
+          <h2 className="section-title" style={{ textAlign: "center" }}>
             Latest Blogs
-          </FuzzyText>
+          </h2>
           <p className="section-subtitle" style={{ margin: "0 auto" }}>
             Thoughts, tutorials, and deep dives into modern web development and design.
           </p>

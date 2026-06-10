@@ -1,29 +1,52 @@
 "use client";
 
 import { useState, useRef } from "react";
-
-
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
+    "idle",
+  );
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formRef.current) return;
+
     setStatus("sending");
-    // Simulate async send
-    await new Promise((r) => setTimeout(r, 1500));
-    setStatus("sent");
-    setForm({ name: "", email: "", message: "" });
-    setTimeout(() => setStatus("idle"), 4000);
+
+    try {
+      await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        formRef.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!,
+      );
+
+      setStatus("sent");
+      setForm({ name: "", email: "", message: "" });
+
+      setTimeout(() => {
+        setStatus("idle");
+      }, 4000);
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
   };
 
   return (
     <section id="contact" className="section">
       <div className="container">
-        <div className="animate-fade-in-up" style={{ textAlign: "center", marginBottom: "60px" }}>
-          <span className="tag" style={{ justifyContent: "center" }}>Contact</span>
+        <div
+          className="animate-fade-in-up"
+          style={{ textAlign: "center", marginBottom: "60px" }}
+        >
+          <span className="tag" style={{ justifyContent: "center" }}>
+            Contact
+          </span>
           <h2 className="section-title" style={{ textAlign: "center" }}>
             Let&apos;s Build Something Together
           </h2>
@@ -96,135 +119,33 @@ export default function Contact() {
             >
               Send me a message
             </h3>
-            <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginBottom: "32px", textAlign: "center" }}>
+            <p
+              style={{
+                fontSize: "14px",
+                color: "var(--text-secondary)",
+                marginBottom: "32px",
+                textAlign: "center",
+              }}
+            >
               Fill out the form below and I&apos;ll be in touch soon.
             </p>
 
-            {status === "sent" ? (
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+            >
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
                   gap: "16px",
-                  padding: "48px 0",
-                  textAlign: "center",
                 }}
+                className="form-row"
               >
-                <div style={{ fontSize: "52px" }}>🎉</div>
-                <h4 style={{ fontSize: "20px", fontWeight: 700 }}>Message sent!</h4>
-                <p style={{ color: "var(--text-secondary)", fontSize: "14px" }}>
-                  Thanks for reaching out. I&apos;ll get back to you soon.
-                </p>
-              </div>
-            ) : (
-              <form
-                ref={formRef}
-                onSubmit={handleSubmit}
-                style={{ display: "flex", flexDirection: "column", gap: "20px" }}
-              >
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "16px",
-                  }}
-                  className="form-row"
-                >
-                  <div>
-                    <label
-                      htmlFor="contact-name"
-                      style={{
-                        display: "block",
-                        fontSize: "13px",
-                        fontWeight: 500,
-                        color: "var(--text-secondary)",
-                        marginBottom: "8px",
-                      }}
-                    >
-                      Your Name
-                    </label>
-                    <input
-                      id="contact-name"
-                      type="text"
-                      required
-                      placeholder="John Doe"
-                      value={form.name}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, name: e.target.value }))
-                      }
-                      style={{
-                        width: "100%",
-                        padding: "12px 16px",
-                        background: "rgba(0,0,0,0.4)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        borderRadius: "10px",
-                        color: "var(--text-primary)",
-                        fontSize: "14px",
-                        outline: "none",
-                        transition: "all 0.2s ease",
-                        fontFamily: "inherit",
-                      }}
-                      onFocus={(e) => {
-                        e.target.style.borderColor = "rgba(56, 189, 248, 0.6)";
-                        e.target.style.background = "rgba(0,0,0,0.6)";
-                      }}
-                      onBlur={(e) => {
-                        e.target.style.borderColor = "rgba(255,255,255,0.1)";
-                        e.target.style.background = "rgba(0,0,0,0.4)";
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="contact-email-input"
-                      style={{
-                        display: "block",
-                        fontSize: "13px",
-                        fontWeight: 500,
-                        color: "var(--text-secondary)",
-                        marginBottom: "8px",
-                      }}
-                    >
-                      Email Address
-                    </label>
-                    <input
-                      id="contact-email-input"
-                      type="email"
-                      required
-                      placeholder="john@example.com"
-                      value={form.email}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, email: e.target.value }))
-                      }
-                      style={{
-                        width: "100%",
-                        padding: "12px 16px",
-                        background: "rgba(0,0,0,0.4)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        borderRadius: "10px",
-                        color: "var(--text-primary)",
-                        fontSize: "14px",
-                        outline: "none",
-                        transition: "all 0.2s ease",
-                        fontFamily: "inherit",
-                      }}
-                      onFocus={(e) => {
-                        e.target.style.borderColor = "rgba(56, 189, 248, 0.6)";
-                        e.target.style.background = "rgba(0,0,0,0.6)";
-                      }}
-                      onBlur={(e) => {
-                        e.target.style.borderColor = "rgba(255,255,255,0.1)";
-                        e.target.style.background = "rgba(0,0,0,0.4)";
-                      }}
-                    />
-                  </div>
-                </div>
-
                 <div>
                   <label
-                    htmlFor="contact-message"
+                    htmlFor="contact-name"
                     style={{
                       display: "block",
                       fontSize: "13px",
@@ -233,20 +154,26 @@ export default function Contact() {
                       marginBottom: "8px",
                     }}
                   >
-                    Message
+                    Your Name
                   </label>
-                  <textarea
-                    id="contact-message"
+                  <input
+                    type="hidden"
+                    name="title"
+                    value={`New message from ${form.name || "a visitor"}`}
+                  />
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
                     required
-                    rows={5}
-                    placeholder="Tell me about your project..."
-                    value={form.message}
+                    placeholder="John Doe"
+                    value={form.name}
                     onChange={(e) =>
-                      setForm((f) => ({ ...f, message: e.target.value }))
+                      setForm((f) => ({ ...f, name: e.target.value }))
                     }
                     style={{
                       width: "100%",
-                      padding: "14px 16px",
+                      padding: "12px 16px",
                       background: "rgba(0,0,0,0.4)",
                       border: "1px solid rgba(255,255,255,0.1)",
                       borderRadius: "10px",
@@ -255,8 +182,6 @@ export default function Contact() {
                       outline: "none",
                       transition: "all 0.2s ease",
                       fontFamily: "inherit",
-                      resize: "vertical",
-                      lineHeight: 1.7,
                     }}
                     onFocus={(e) => {
                       e.target.style.borderColor = "rgba(56, 189, 248, 0.6)";
@@ -268,57 +193,183 @@ export default function Contact() {
                     }}
                   />
                 </div>
+                <div>
+                  <label
+                    htmlFor="contact-email-input"
+                    style={{
+                      display: "block",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: "var(--text-secondary)",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    id="contact-email-input"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="john@example.com"
+                    value={form.email}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, email: e.target.value }))
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "12px 16px",
+                      background: "rgba(0,0,0,0.4)",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                      borderRadius: "10px",
+                      color: "var(--text-primary)",
+                      fontSize: "14px",
+                      outline: "none",
+                      transition: "all 0.2s ease",
+                      fontFamily: "inherit",
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = "rgba(56, 189, 248, 0.6)";
+                      e.target.style.background = "rgba(0,0,0,0.6)";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "rgba(255,255,255,0.1)";
+                      e.target.style.background = "rgba(0,0,0,0.4)";
+                    }}
+                  />
+                </div>
+              </div>
 
-                <button
-                  id="submit-contact-form"
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="btn btn-primary"
+              <div>
+                <label
+                  htmlFor="contact-message"
                   style={{
-                    width: "100%",
-                    justifyContent: "center",
-                    opacity: status === "sending" ? 0.7 : 1,
-                    marginTop: "10px",
-                    background: "rgba(56, 189, 248, 0.9)",
+                    display: "block",
+                    fontSize: "13px",
+                    fontWeight: 500,
+                    color: "var(--text-secondary)",
+                    marginBottom: "8px",
                   }}
                 >
-                  {status === "sending" ? (
-                    <>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        style={{ animation: "spin-slow 1s linear infinite" }}
-                      >
-                        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                      </svg>
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path d="m22 2-7 20-4-9-9-4 20-7z" />
-                      </svg>
-                      Send Message
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
+                  Message
+                </label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  required
+                  rows={5}
+                  placeholder="Tell me about your project..."
+                  value={form.message}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, message: e.target.value }))
+                  }
+                  style={{
+                    width: "100%",
+                    padding: "14px 16px",
+                    background: "rgba(0,0,0,0.4)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "10px",
+                    color: "var(--text-primary)",
+                    fontSize: "14px",
+                    outline: "none",
+                    transition: "all 0.2s ease",
+                    fontFamily: "inherit",
+                    resize: "vertical",
+                    lineHeight: 1.7,
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "rgba(56, 189, 248, 0.6)";
+                    e.target.style.background = "rgba(0,0,0,0.6)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "rgba(255,255,255,0.1)";
+                    e.target.style.background = "rgba(0,0,0,0.4)";
+                  }}
+                />
+              </div>
+
+              <button
+                id="submit-contact-form"
+                type="submit"
+                disabled={status === "sending"}
+                className="btn btn-primary"
+                style={{
+                  width: "100%",
+                  justifyContent: "center",
+                  opacity: status === "sending" ? 0.7 : 1,
+                  marginTop: "10px",
+                  background: "rgba(56, 189, 248, 0.9)",
+                }}
+              >
+                {status === "sending" ? (
+                  <>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      style={{ animation: "spin-slow 1s linear infinite" }}
+                    >
+                      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                    </svg>
+                    Sending...
+                  </>
+                ) : status === "sent" ? (
+                  <>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    Message Sent
+                  </>
+                ) : status === "error" ? (
+                  <>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                    Error Sending
+                  </>
+                ) : (
+                  <>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m22 2-7 20-4-9-9-4 20-7z" />
+                    </svg>
+                    Send Message
+                  </>
+                )}
+              </button>
+            </form>
           </div>
         </div>
       </div>

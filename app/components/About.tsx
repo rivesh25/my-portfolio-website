@@ -60,42 +60,6 @@ export default function About() {
                 breaking down complex concepts, and sharing my learnings with
                 the developer community through in-depth articles and tutorials.
               </p>
-
-              {/* <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "12px",
-                  marginBottom: "36px",
-                }}
-              >
-                {[
-                  { label: "📍 India", id: "about-location" },
-                  { label: "💼 Open to remote", id: "about-remote" },
-                  { label: "🎓 CS Degree", id: "about-edu" },
-                  { label: "🌐 Full Stack", id: "about-stack" },
-                ].map((item) => (
-                  <span key={item.id} id={item.id} className="skill-badge">
-                    {item.label}
-                  </span>
-                ))}
-              </div> */}
-
-              {/* <a href="#contact" className="btn btn-primary">
-                Let&apos;s Work Together
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </a> */}
             </div>
 
             {/* Right: stats grid */}

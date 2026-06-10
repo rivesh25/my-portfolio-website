@@ -30,8 +30,8 @@
 @theme inline {
   --color-background: var(--bg);
   --color-foreground: var(--text-primary);
-  --font-sans: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: var(--font-sans), "Inter", sans-serif;
+  --font-mono: var(--font-mono), "JetBrains Mono", monospace;
 }
 
 /* ─── Base Reset ───────────────────────────────────────── */
@@ -51,7 +51,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text-primary);
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-sans), "Inter", sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
