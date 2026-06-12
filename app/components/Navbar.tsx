@@ -1,20 +1,36 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
+  { label: "About", href: "/#about" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Experience", href: "/#experience" },
   { label: "Blogs", href: "/blogs" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const pathname = usePathname();
+
+  // Fix cross-page hash scrolling
+  useEffect(() => {
+    if (pathname === "/" && window.location.hash) {
+      const hash = window.location.hash;
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100); // slight delay to allow page rendering
+    }
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 30);
@@ -77,8 +93,8 @@ export default function Navbar() {
           }}
         >
           {/* Logo */}
-          <a
-            href="#"
+          <Link
+            href="/"
             style={{
               fontFamily: "'JetBrains Mono', monospace",
               fontSize: "18px",
@@ -96,7 +112,7 @@ export default function Navbar() {
             >
               _
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <div
@@ -108,7 +124,7 @@ export default function Navbar() {
             className="hidden-mobile"
           >
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="nav-link"
@@ -120,15 +136,15 @@ export default function Navbar() {
                 }}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
-            <a
-              href="#contact"
+            <Link
+              href="/#contact"
               className="btn btn-primary"
               style={{ padding: "9px 20px", fontSize: "14px" }}
             >
               Hire Me
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Hamburger */}
@@ -185,7 +201,7 @@ export default function Navbar() {
             }}
           >
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
@@ -199,16 +215,16 @@ export default function Navbar() {
                 }}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
-            <a
-              href="#contact"
+            <Link
+              href="/#contact"
               className="btn btn-primary"
               onClick={() => setMenuOpen(false)}
               style={{ width: "fit-content" }}
             >
               Hire Me
-            </a>
+            </Link>
           </div>
         )}
 

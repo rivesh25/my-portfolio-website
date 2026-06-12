@@ -1,67 +1,31 @@
-"use client";
-
 import Navbar from "../components/Navbar";
 import { Component as FlickeringFooter } from "../components/FlickeringFooter";
 import MagicBento from "../components/MagicBento";
+import BlogsGrid from "../components/BlogsGrid";
+import { client } from "../lib/sanity";
+import { Metadata } from "next";
 
-const allBlogs = [
-  {
-    id: "blog-1",
-    title: "Mastering React Server Components",
-    description: "A deep dive into how Server Components change the way we build React applications, focusing on performance and SEO.",
-    date: "Jun 10, 2026",
-    readTime: "5 min read",
-    tags: ["React", "Next.js", "Performance"],
-    accent: "#38bdf8",
-  },
-  {
-    id: "blog-2",
-    title: "Building Scalable APIs with Node & Express",
-    description: "Best practices for structuring your Express applications to handle high traffic and complex business logic.",
-    date: "May 24, 2026",
-    readTime: "7 min read",
-    tags: ["Node.js", "Backend", "API"],
-    accent: "#c084fc",
-  },
-  {
-    id: "blog-3",
-    title: "The Future of Web Design: Glassmorphism",
-    description: "Exploring the aesthetic appeal and implementation details of modern UI trends like glassmorphism.",
-    date: "May 05, 2026",
-    readTime: "4 min read",
-    tags: ["CSS", "Design", "UI/UX"],
-    accent: "#f472b6",
-  },
-  {
-    id: "blog-4",
-    title: "Deploying to AWS using Terraform",
-    description: "An infrastructure-as-code approach to managing your cloud deployments predictably and securely.",
-    date: "Apr 18, 2026",
-    readTime: "8 min read",
-    tags: ["DevOps", "AWS", "Terraform"],
-    accent: "#fbbf24",
-  },
-  {
-    id: "blog-5",
-    title: "Advanced TypeScript Patterns",
-    description: "Move beyond the basics and learn how to use mapped types, conditional types, and generics effectively.",
-    date: "Mar 30, 2026",
-    readTime: "6 min read",
-    tags: ["TypeScript", "Frontend"],
-    accent: "#34d399",
-  },
-  {
-    id: "blog-6",
-    title: "Animating with Framer Motion",
-    description: "Bring your React applications to life with physics-based animations that feel smooth and natural.",
-    date: "Feb 14, 2026",
-    readTime: "5 min read",
-    tags: ["React", "Animation"],
-    accent: "#a78bfa",
-  },
-];
+export const metadata: Metadata = {
+  title: "Blogs",
+  description: "A collection of my thoughts, tutorials, and deep dives into software engineering, web development, and modern design.",
+};
 
-export default function BlogsPage() {
+export const revalidate = 60; // Revalidate every 60 seconds
+
+export default async function BlogsPage() {
+  const query = `*[_type == "post"] | order(publishedAt desc) {
+    _id,
+    title,
+    slug,
+    publishedAt,
+    mainImage,
+    "authorName": author->name,
+    "categories": categories[]->title,
+    "excerpt": array::join(string::split((pt::text(body)), "")[0...120], "") + "..."
+  }`;
+
+  const allBlogs = await client.fetch(query);
+
   return (
     <>
       <div className="bg-noise" aria-hidden />
@@ -146,7 +110,7 @@ export default function BlogsPage() {
             <div className="animate-fade-in-up" style={{ textAlign: "center", marginBottom: "60px" }}>
               <span className="tag" style={{ justifyContent: "center" }}>All Posts</span>
               <h1 className="section-title" style={{ textAlign: "center" }}>
-                My Blog
+                My Blogs
               </h1>
               <p
                 style={{
@@ -161,95 +125,9 @@ export default function BlogsPage() {
               </p>
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                gap: "32px",
-              }}
-            >
-              {allBlogs.map((blog, i) => (
-                <div
-                  key={blog.id}
-                  className="card glass animate-fade-in-up"
-                  style={{
-                    animationDelay: `${i * 0.05}s`,
-                    padding: "32px",
-                    display: "flex",
-                    flexDirection: "column",
-                    transition: "transform 0.2s ease, border-color 0.2s ease",
-                    cursor: "pointer",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-5px)";
-                    e.currentTarget.style.borderColor = "var(--border-hover)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.borderColor = "var(--border)";
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      fontSize: "13px",
-                      color: "var(--text-secondary)",
-                      marginBottom: "16px",
-                    }}
-                  >
-                    <span>{blog.date}</span>
-                    <span>{blog.readTime}</span>
-                  </div>
-                  <h3
-                    style={{
-                      fontSize: "20px",
-                      fontWeight: 700,
-                      color: "var(--text-primary)",
-                      marginBottom: "12px",
-                      lineHeight: 1.4,
-                    }}
-                  >
-                    {blog.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "14px",
-                      lineHeight: 1.7,
-                      color: "var(--text-secondary)",
-                      marginBottom: "24px",
-                      flexGrow: 1,
-                    }}
-                  >
-                    {blog.description}
-                  </p>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: "8px",
-                      marginTop: "auto",
-                    }}
-                  >
-                    {blog.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        style={{
-                          fontSize: "12px",
-                          padding: "4px 10px",
-                          background: `${blog.accent}15`,
-                          color: blog.accent,
-                          borderRadius: "100px",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+            {/* Dynamic Blog Grid */}
+            <BlogsGrid blogs={allBlogs} enableSearch={true} />
+
           </div>
         </section>
       </main>

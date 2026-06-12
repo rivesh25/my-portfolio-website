@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import FuzzyText from "./FuzzyText";
 
 const skillsData = [
   {
@@ -74,14 +73,9 @@ export default function Skills() {
           }}
         >
           <span className="tag">Skills</span>
-          <FuzzyText
-            baseIntensity={0.2}
-            hoverIntensity={0.5}
-            enableHover
-            fontSize="clamp(2.5rem, 5vw, 3.5rem)"
-          >
+          <h2 className="section-title" style={{ textAlign: "center", marginBottom: "8px" }}>
             My Tech Stack
-          </FuzzyText>
+          </h2>
           <p className="section-subtitle" style={{ margin: "0 auto" }}>
             A curated set of tools and technologies I use to craft scalable,
             production-ready applications.

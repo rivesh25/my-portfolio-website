@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -17,15 +18,28 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rivesh — Full Stack Developer",
+  metadataBase: new URL("https://rivtech.me"),
+  title: {
+    default: "Rivesh — Full Stack Developer",
+    template: "%s | Rivesh Kumar"
+  },
   description:
     "Full Stack Developer specializing in building exceptional digital experiences. Passionate about clean code, scalable systems, and modern UI.",
-  keywords: ["Full Stack Developer", "React", "Node.js", "TypeScript", "Portfolio"],
+  keywords: ["Full Stack Developer", "React", "Node.js", "TypeScript", "Portfolio", "Web Development", "Next.js"],
+  authors: [{ name: "Rivesh Kumar" }],
+  creator: "Rivesh Kumar",
   openGraph: {
-    title: "Rivesh — Full Stack Developer",
-    description:
-      "Full Stack Developer specializing in building exceptional digital experiences.",
     type: "website",
+    locale: "en_US",
+    url: "https://rivtech.me",
+    title: "Rivesh — Full Stack Developer",
+    description: "Full Stack Developer specializing in building exceptional digital experiences.",
+    siteName: "Rivesh Kumar Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rivesh — Full Stack Developer",
+    description: "Full Stack Developer specializing in building exceptional digital experiences.",
   },
 };
 
@@ -36,6 +50,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <head>
+        <Script id="schema-person" type="application/ld+json" strategy="beforeInteractive">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Rivesh Kumar",
+              "url": "https://rivtech.me",
+              "jobTitle": "Full Stack Developer",
+              "sameAs": [
+                "https://github.com/rivesh25",
+                "https://www.linkedin.com/in/rivesh-kumar/",
+                "https://x.com/Rivesh25"
+              ]
+            }
+          `}
+        </Script>
+      </head>
       <body>{children}</body>
     </html>
   );
