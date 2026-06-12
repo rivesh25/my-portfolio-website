@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/studio-my-blogs
 /.pnp
 .pnp.*
 .yarn/*
