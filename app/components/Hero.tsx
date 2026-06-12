@@ -60,9 +60,9 @@ export default function Hero() {
           <h1
             className="animate-fade-in-up delay-100"
             style={{
-              fontSize: "clamp(3rem, 8vw, 9rem)",
-              lineHeight: 0.9,
-              margin: 0,
+              fontSize: "clamp(2.5rem, 8vw, 9rem)",
+              lineHeight: 1.1,
+              marginBottom: "8px",
               fontWeight: 900,
               letterSpacing: "-0.05em",
               color: "#fff",
@@ -74,9 +74,9 @@ export default function Hero() {
             className="animate-fade-in-up delay-200"
             style={{
               fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-              fontSize: "clamp(3rem, 8vw, 9rem)",
-              lineHeight: 0.9,
-              marginBottom: "10px",
+              fontSize: "clamp(2.5rem, 8vw, 9rem)",
+              lineHeight: 1.1,
+              marginBottom: "16px",
               fontWeight: 900,
               letterSpacing: "-0.03em",
               color: "transparent",

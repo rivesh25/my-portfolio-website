@@ -340,14 +340,6 @@ export const siteConfig = {
         { id: 7, title: "Contact", url: "/#contact" },
       ],
     },
-    {
-      title: "Social",
-      links: [
-        { id: 8, title: "GitHub", url: "https://github.com/rivesh25" },
-        { id: 9, title: "LinkedIn", url: "https://www.linkedin.com/in/rivesh-kumar/" },
-        { id: 10, title: "Twitter", url: "https://x.com/Rivesh25" },
-      ],
-    },
   ],
 };
 
@@ -355,10 +347,11 @@ export type SiteConfig = typeof siteConfig;
 
 export const Component = () => {
   const tablet = useMediaQuery("(max-width: 1024px)");
+  const mobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <footer id="footer" className="w-full pb-0">
-      <div className="container flex flex-col md:flex-row md:items-start md:justify-between pt-10 pb-0 gap-10">
+      <div className="container flex flex-col md:flex-row md:items-start md:justify-between pt-8 md:pt-10 pb-0 gap-8 md:gap-10">
         <div className="flex flex-col items-start justify-start gap-y-5 max-w-xs mx-0">
           <Link 
             href="/" 
@@ -384,7 +377,7 @@ export const Component = () => {
           </p>
         </div>
         <div className="pt-5 md:w-1/2">
-          <div className="flex flex-col items-start justify-start md:flex-row md:items-start md:justify-between gap-y-5 lg:pl-10">
+          <div className="grid grid-cols-2 gap-y-5 gap-x-4 md:flex md:flex-row md:items-start md:justify-between lg:pl-10">
             {siteConfig.footerLinks.map((column, columnIndex) => (
               <ul key={columnIndex} className="flex flex-col gap-y-2">
                 <li className="mb-2 text-sm font-semibold text-primary">
@@ -406,15 +399,15 @@ export const Component = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-48 md:h-64 relative mt-24 z-0">
+      <div className="w-full h-32 md:h-64 relative mt-10 md:mt-24 z-0">
         <div className="absolute inset-0 bg-gradient-to-t from-transparent to-background z-10 from-40%" />
-        <div className="absolute inset-0 mx-6">
+        <div className="absolute inset-0 mx-4 md:mx-6">
           <FlickeringGrid
             text="Rivesh Kumar"
-            fontSize={tablet ? 70 : 90}
+            fontSize={mobile ? 46 : tablet ? 70 : 90}
             className="h-full w-full"
-            squareSize={2}
-            gridGap={tablet ? 2 : 3}
+            squareSize={mobile ? 1.5 : 2}
+            gridGap={mobile ? 1.5 : tablet ? 2 : 3}
             color="#6B7280"
             maxOpacity={0.3}
             flickerChance={0.1}

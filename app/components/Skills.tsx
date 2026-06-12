@@ -122,12 +122,10 @@ export default function Skills() {
                 {category.items.map((skill) => (
                   <div
                     key={skill.name}
-                    className="card glass"
+                    className="card glass skill-card"
                     style={{
-                      padding: "20px 32px",
                       display: "flex",
                       alignItems: "center",
-                      gap: "16px",
                       borderRadius: "16px",
                       transition: "all var(--transition)",
                       cursor: "default",
@@ -141,18 +139,19 @@ export default function Skills() {
                       e.currentTarget.style.borderColor = "var(--border)";
                     }}
                   >
-                    <Image
-                      src={skill.icon}
-                      alt={skill.name}
-                      width={40}
-                      height={40}
-                      style={{
-                        objectFit: "contain",
-                      }}
-                    />
+                    <div className="skill-icon" style={{ position: "relative" }}>
+                      <Image
+                        src={skill.icon}
+                        alt={skill.name}
+                        fill
+                        style={{
+                          objectFit: "contain",
+                        }}
+                      />
+                    </div>
                     <span
+                      className="skill-text"
                       style={{
-                        fontSize: "16px",
                         fontWeight: 500,
                         color: "var(--text-primary)",
                       }}
@@ -166,6 +165,35 @@ export default function Skills() {
           ))}
         </div>
       </div>
+
+      <style>{`
+        .skill-card {
+          padding: 20px 32px;
+          gap: 16px;
+        }
+        .skill-icon {
+          width: 40px;
+          height: 40px;
+        }
+        .skill-text {
+          font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+          .skill-card {
+            padding: 12px 18px;
+            gap: 12px;
+            border-radius: 12px !important;
+          }
+          .skill-icon {
+            width: 24px;
+            height: 24px;
+          }
+          .skill-text {
+            font-size: 14px;
+          }
+        }
+      `}</style>
     </section>
   );
 }

@@ -73,7 +73,6 @@ export default function Navbar() {
           width: "100%",
           maxWidth: "1100px",
           borderRadius: "40px",
-          padding: "0 34px",
           transition: "all 0.3s ease",
           background: "rgba(255, 255, 255, 0.05)",
           backdropFilter: "blur(16px)",
@@ -82,6 +81,7 @@ export default function Navbar() {
           boxShadow: scrolled
             ? "0 10px 30px rgba(0,0,0,0.3)"
             : "0 4px 20px rgba(0,0,0,0.1)",
+          overflow: "hidden",
         }}
       >
         <div
@@ -90,6 +90,7 @@ export default function Navbar() {
             alignItems: "center",
             justifyContent: "space-between",
             height: "64px",
+            padding: "0 34px",
           }}
         >
           {/* Logo */}
@@ -191,8 +192,7 @@ export default function Navbar() {
         {menuOpen && (
           <div
             style={{
-              background: "rgba(8,11,16,0.97)",
-              backdropFilter: "blur(20px)",
+              background: "transparent",
               borderTop: "1px solid var(--border)",
               padding: "20px 24px 28px",
               display: "flex",

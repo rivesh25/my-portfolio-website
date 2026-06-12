@@ -66,7 +66,11 @@ const projects = [
 
 export default function Projects() {
   return (
-    <section id="projects" className="section" style={{ paddingBottom: "40px" }}>
+    <section
+      id="projects"
+      className="section"
+      style={{ paddingBottom: "40px" }}
+    >
       <div className="container">
         <div
           className="animate-fade-in-up"
@@ -87,14 +91,7 @@ export default function Projects() {
         </div>
 
         {/* Project cards grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-            gap: "40px",
-            justifyItems: "center",
-          }}
-        >
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-10 justify-items-stretch">
           {projects.map((project) => (
             <TiltedCard
               key={project.id}
@@ -111,69 +108,26 @@ export default function Projects() {
               showTooltip={false}
               displayOverlayContent={true}
               overlayContent={
-                <div
-                  className="card glass"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    padding: "28px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    textAlign: "center",
-                  }}
-                >
-                  {/* Icon */}
+                <div className="card glass project-card">
                   <div
+                    className="project-icon"
                     style={{
-                      width: "52px",
-                      height: "52px",
-                      borderRadius: "14px",
                       background: `${project.accent}15`,
                       border: `1px solid ${project.accent}30`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "24px",
-                      marginBottom: "20px",
-                      flexShrink: 0,
                     }}
                   >
                     {project.emoji}
                   </div>
 
-                  <h3
-                    style={{
-                      fontSize: "18px",
-                      fontWeight: 700,
-                      marginBottom: "10px",
-                      color: "var(--text-primary)",
-                    }}
-                  >
+                  <h3 className="project-title">
                     {project.title}
                   </h3>
 
-                  <p
-                    style={{
-                      fontSize: "14px",
-                      lineHeight: 1.75,
-                      color: "var(--text-secondary)",
-                      marginBottom: "20px",
-                    }}
-                  >
+                  <p className="project-desc">
                     {project.description}
                   </p>
 
-                  {/* Tags */}
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: "6px",
-                      marginBottom: "24px",
-                      justifyContent: "center",
-                    }}
-                  >
+                  <div className="project-tags">
                     {project.tags.map((tag) => (
                       <span key={tag} className="code-chip">
                         {tag}
@@ -181,36 +135,12 @@ export default function Projects() {
                     ))}
                   </div>
 
-                  {/* Links */}
-                  <div style={{ display: "flex", gap: "12px", justifyContent: "center", marginTop: "auto" }}>
+                  <div className="project-links">
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        padding: "10px 20px",
-                        background: "rgba(255, 255, 255, 0.03)",
-                        border: "1px solid var(--border)",
-                        color: "var(--text-primary)",
-                        borderRadius: "100px",
-                        fontSize: "14px",
-                        fontWeight: 600,
-                        textDecoration: "none",
-                        transition: "all 0.2s ease",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
-                        e.currentTarget.style.border = "1px solid var(--border-hover)";
-                        e.currentTarget.style.transform = "translateY(-2px)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)";
-                        e.currentTarget.style.border = "1px solid var(--border)";
-                        e.currentTarget.style.transform = "translateY(0)";
-                      }}
+                      className="project-link-btn"
                     >
                       <svg
                         width="16"
@@ -230,7 +160,13 @@ export default function Projects() {
         </div>
 
         {/* View More Button */}
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "60px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "60px",
+          }}
+        >
           <a
             href="https://github.com/rivesh25"
             target="_blank"
@@ -246,7 +182,8 @@ export default function Projects() {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 8px 20px rgba(56, 189, 248, 0.3)";
+              e.currentTarget.style.boxShadow =
+                "0 8px 20px rgba(56, 189, 248, 0.3)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0)";
@@ -270,6 +207,120 @@ export default function Projects() {
           </a>
         </div>
       </div>
+
+      <style>{`
+        .project-card {
+          width: 100%;
+          height: 100%;
+          padding: 28px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+        .project-icon {
+          width: 52px;
+          height: 52px;
+          border-radius: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          margin-bottom: 20px;
+          flex-shrink: 0;
+        }
+        .project-title {
+          font-size: 18px;
+          font-weight: 700;
+          margin-bottom: 10px;
+          color: var(--text-primary);
+        }
+        .project-desc {
+          font-size: 14px;
+          line-height: 1.75;
+          color: var(--text-secondary);
+          margin-bottom: 20px;
+        }
+        .project-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+          margin-bottom: 24px;
+          justify-content: center;
+        }
+        .project-links {
+          display: flex;
+          gap: 12px;
+          justify-content: center;
+          margin-top: auto;
+        }
+        .project-link-btn {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 20px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid var(--border);
+          color: var(--text-primary);
+          border-radius: 100px;
+          font-size: 14px;
+          font-weight: 600;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        @media (max-width: 768px) {
+          .card.glass.project-card {
+            padding: 12px !important;
+          }
+          figure {
+            height: 280px !important;
+            width: 100% !important;
+            margin: 0 !important;
+          }
+          .project-card {
+            padding: 12px !important;
+          }
+          .project-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 18px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+          }
+          .project-title {
+            font-size: 14px;
+            margin-bottom: 6px;
+          }
+          .project-desc {
+            font-size: 11px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .project-tags {
+            gap: 4px;
+            margin-bottom: 16px;
+          }
+          .project-tags .code-chip {
+            font-size: 9px;
+            padding: 2px 6px;
+          }
+          .project-link-btn {
+            padding: 6px 12px;
+            font-size: 11px;
+            gap: 4px;
+          }
+          .project-link-btn svg {
+            width: 12px;
+            height: 12px;
+          }
+        }
+      `}</style>
     </section>
   );
 }

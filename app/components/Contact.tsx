@@ -97,43 +97,28 @@ export default function Contact() {
 
           {/* Contact form aligned to the right */}
           <div
-            className="card glass"
+            className="card glass contact-card"
             style={{
               position: "relative",
               zIndex: 1,
-              padding: "40px",
               width: "100%",
               maxWidth: "500px",
-              background: "rgba(20, 20, 20, 0.6)", // Slightly darker glass for contrast against image
+              background: "rgba(20, 20, 20, 0.6)",
               backdropFilter: "blur(12px)",
               border: "1px solid rgba(255, 255, 255, 0.1)",
             }}
           >
-            <h3
-              style={{
-                fontSize: "24px",
-                fontWeight: 700,
-                marginBottom: "8px",
-                textAlign: "center",
-              }}
-            >
+            <h3 className="contact-heading">
               Send me a message
             </h3>
-            <p
-              style={{
-                fontSize: "14px",
-                color: "var(--text-secondary)",
-                marginBottom: "32px",
-                textAlign: "center",
-              }}
-            >
+            <p className="contact-subheading">
               Fill out the form below and I&apos;ll be in touch soon.
             </p>
 
             <form
               ref={formRef}
               onSubmit={handleSubmit}
-              style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+              className="contact-form"
             >
               <div
                 style={{
@@ -289,16 +274,12 @@ export default function Contact() {
               </div>
 
               <button
-                id="submit-contact-form"
                 type="submit"
                 disabled={status === "sending"}
-                className="btn btn-primary"
+                className="btn btn-primary contact-submit-btn"
                 style={{
-                  width: "100%",
-                  justifyContent: "center",
                   opacity: status === "sending" ? 0.7 : 1,
-                  marginTop: "10px",
-                  background: "rgba(56, 189, 248, 0.9)",
+                  cursor: status === "sending" ? "not-allowed" : "pointer",
                 }}
               >
                 {status === "sending" ? (
@@ -381,9 +362,60 @@ export default function Contact() {
         .contact-bg-container:hover .contact-bg-image {
           filter: grayscale(0%);
         }
+        .contact-card {
+          padding: 40px;
+        }
+        .contact-heading {
+          font-size: 24px;
+          font-weight: 700;
+          margin-bottom: 8px;
+          text-align: center;
+        }
+        .contact-subheading {
+          font-size: 14px;
+          color: var(--text-secondary);
+          margin-bottom: 32px;
+          text-align: center;
+        }
+        .contact-form {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+        }
+        .contact-submit-btn {
+          width: 100%;
+          padding: 16px;
+          font-size: 16px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          margin-top: 10px;
+        }
+
         @media (max-width: 768px) {
+          .contact-card {
+            padding: 24px 20px !important;
+          }
           .form-row {
             grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .contact-heading {
+            font-size: 20px;
+            margin-bottom: 4px;
+          }
+          .contact-subheading {
+            font-size: 12px;
+            margin-bottom: 20px;
+          }
+          .contact-form {
+            gap: 14px;
+          }
+          .contact-submit-btn {
+            padding: 12px;
+            font-size: 14px;
+            margin-top: 0px;
           }
         }
         @keyframes spin-slow {
