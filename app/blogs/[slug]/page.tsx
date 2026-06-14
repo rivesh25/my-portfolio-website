@@ -101,6 +101,51 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           </div>
         );
       },
+      code: ({ value }: { value: any }) => (
+        <div style={{ margin: "24px 0", borderRadius: "8px", overflow: "hidden", background: "#1e1e1e", border: "1px solid #333" }}>
+          <div style={{ background: "#2d2d2d", padding: "8px 16px", color: "#888", fontSize: "12px", borderBottom: "1px solid #333", display: "flex", justifyContent: "space-between" }}>
+            <span>{value.language || 'text'}</span>
+            {value.filename && <span>{value.filename}</span>}
+          </div>
+          <pre style={{ margin: 0, padding: "16px", overflowX: "auto", fontSize: "14px", lineHeight: "1.5", color: "#d4d4d4" }}>
+            <code>{value.code}</code>
+          </pre>
+        </div>
+      ),
+      table: ({ value }: { value: any }) => {
+        if (!value || !value.rows) return null;
+        return (
+          <div style={{ overflowX: "auto", margin: "32px 0" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", color: "var(--text-primary)" }}>
+              <tbody>
+                {value.rows.map((row: any, i: number) => (
+                  <tr key={row._key} style={{ borderBottom: i === value.rows.length - 1 ? "none" : "1px solid var(--border)" }}>
+                    {row.cells.map((cell: any, j: number) => {
+                      const isHeader = i === 0;
+                      return isHeader ? (
+                        <th key={j} style={{ padding: "12px 16px", border: "1px solid var(--border)", background: "rgba(255,255,255,0.05)", fontWeight: "bold" }}>
+                          {cell}
+                        </th>
+                      ) : (
+                        <td key={j} style={{ padding: "12px 16px", border: "1px solid var(--border)" }}>
+                          {cell}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      },
+    },
+    marks: {
+      code: ({ children }: { children?: React.ReactNode }) => (
+        <code style={{ background: "rgba(255,255,255,0.08)", padding: "4px 8px", borderRadius: "6px", color: "var(--accent)", fontSize: "0.9em", border: "1px solid rgba(255,255,255,0.1)" }}>
+          {children}
+        </code>
+      ),
     },
     block: {
       h1: ({ children }: { children?: React.ReactNode }) => <h1 style={{ fontSize: "2.5rem", fontWeight: 700, margin: "2.5rem 0 1rem", color: "var(--text-primary)" }}>{children}</h1>,
@@ -117,19 +162,24 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
   return (
     <>
-      <Script id="schema-article" type="application/ld+json" strategy="beforeInteractive">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Article",
-          "headline": post.title,
-          "image": post.mainImage ? [urlFor(post.mainImage).url()] : [],
-          "datePublished": post.publishedAt,
-          "author": [{
-            "@type": "Person",
-            "name": post.name || "Rivesh Kumar"
-          }]
-        })}
-      </Script>
+      <Script 
+        id="schema-article" 
+        type="application/ld+json" 
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": post.title,
+            "image": post.mainImage ? [urlFor(post.mainImage).url()] : [],
+            "datePublished": post.publishedAt,
+            "author": [{
+              "@type": "Person",
+              "name": post.name || "Rivesh Kumar"
+            }]
+          })
+        }}
+      />
 
       <div className="bg-noise" aria-hidden />
       

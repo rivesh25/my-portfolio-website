@@ -86,12 +86,13 @@ export default function BlogsGrid({ blogs = [], enableSearch = false }: { blogs?
                 className="card glass animate-fade-in-up"
                 style={{
                   animationDelay: `${(i % 6) * 0.05}s`,
-                  padding: "24px",
+                  padding: "20px",
                   display: "flex",
                   flexDirection: "column",
                   transition: "transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease",
                   textDecoration: "none",
-                  aspectRatio: "1 / 1",
+                  aspectRatio: "auto",
+                  minHeight: "280px",
                   overflow: "hidden",
                 }}
                 onMouseEnter={(e) => {
@@ -106,7 +107,7 @@ export default function BlogsGrid({ blogs = [], enableSearch = false }: { blogs?
                 }}
               >
                 {blog.mainImage && (
-                  <div style={{ position: "relative", width: "100%", height: "45%", marginBottom: "16px", borderRadius: "12px", overflow: "hidden", flexShrink: 0 }}>
+                  <div style={{ position: "relative", width: "100%", height: "180px", marginBottom: "20px", borderRadius: "12px", overflow: "hidden", flexShrink: 0 }}>
                     <Image src={urlFor(blog.mainImage).width(400).height(200).url()} alt={blog.title} fill style={{ objectFit: "cover" }} />
                   </div>
                 )}
@@ -140,59 +141,19 @@ export default function BlogsGrid({ blogs = [], enableSearch = false }: { blogs?
                 </div>
                 <h3
                   style={{
-                    fontSize: "18px",
+                    fontSize: "20px",
                     fontWeight: 700,
                     color: "var(--text-primary)",
-                    marginBottom: "8px",
-                    lineHeight: 1.3,
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}
-                >
-                  {blog.title}
-                </h3>
-                <p
-                  style={{
-                    fontSize: "13px",
-                    lineHeight: 1.6,
-                    color: "var(--text-secondary)",
-                    marginBottom: "16px",
-                    flexGrow: 1,
+                    margin: "0",
+                    lineHeight: 1.4,
                     display: "-webkit-box",
                     WebkitLineClamp: 3,
                     WebkitBoxOrient: "vertical",
                     overflow: "hidden",
                   }}
                 >
-                  {blog.excerpt}
-                </p>
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    gap: "6px",
-                    marginTop: "auto",
-                  }}
-                >
-                  {blog.categories && blog.categories.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      style={{
-                        fontSize: "11px",
-                        padding: "4px 8px",
-                        background: `${accent}15`,
-                        color: accent,
-                        borderRadius: "100px",
-                        fontWeight: 600,
-                        whiteSpace: "nowrap"
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                  {blog.title}
+                </h3>
               </Link>
             );
           })}
