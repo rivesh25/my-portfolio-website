@@ -91,12 +91,13 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           return null;
         }
         return (
-          <div style={{ position: "relative", width: "100%", height: "400px", margin: "32px 0", borderRadius: "12px", overflow: "hidden" }}>
+          <div style={{ position: "relative", width: "100%", margin: "32px 0", borderRadius: "12px", overflow: "hidden" }}>
             <Image
               src={urlFor(value).url()}
               alt={value.alt || "Blog image"}
-              fill
-              style={{ objectFit: "cover" }}
+              width={1200}
+              height={800}
+              style={{ width: "100%", height: "auto" }}
             />
           </div>
         );
@@ -248,12 +249,13 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
           {/* Main Image */}
           {post.mainImage && (
-            <div style={{ position: "relative", width: "100%", height: "400px", borderRadius: "20px", overflow: "hidden", marginBottom: "40px", border: "1px solid var(--border)" }}>
+            <div style={{ position: "relative", width: "100%", borderRadius: "20px", overflow: "hidden", marginBottom: "40px", border: "1px solid var(--border)", display: "flex", justifyContent: "center", background: "var(--bg-secondary)" }}>
               <Image
                 src={urlFor(post.mainImage).url()}
                 alt={post.title}
-                fill
-                style={{ objectFit: "cover" }}
+                width={1200}
+                height={800}
+                style={{ width: "100%", height: "auto", maxHeight: "600px", objectFit: "contain" }}
                 priority
               />
             </div>
