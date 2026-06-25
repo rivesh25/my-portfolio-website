@@ -3,7 +3,7 @@ const experiences = [
     id: "exp-1",
     role: "Full Stack Developer Intern",
     company: "Triitans Solitaire",
-    period: "March 2026 — Aug 2026",
+    period: "March 2026 — Present",
     type: "Internship",
     description:
       "Working as a full stack developer intern, collaborating closely with the engineering team to build, test, and ship features across both frontend and backend systems.",
