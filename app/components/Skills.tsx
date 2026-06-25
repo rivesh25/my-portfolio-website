@@ -27,6 +27,7 @@ const skillsData = [
       { name: "PostgreSQL", icon: "/icons/postgresql.png" },
       { name: "Python", icon: "/icons/python.png" },
       { name: "Supabase", icon: "/icons/supabase.png" },
+      { name: "Postman", icon: "/icons/postman.png" },
     ],
   },
   {
@@ -44,6 +45,11 @@ const skillsData = [
       { name: "Terraform", icon: "/icons/terraform.png" },
       { name: "Ansible", icon: "/icons/ansible.png" },
       { name: "Nginx", icon: "/icons/nginx.png" },
+      { name: "GitHub Actions", icon: "/icons/github-actions.png" },
+      { name: "GitLab", icon: "/icons/gitlab.png" },
+      { name: "Digital Ocean", icon: "/icons/digitalocean.png" },
+      { name: "SonarQube", icon: "/icons/sonarqube.png" },
+      { name: "Sonatype Nexus", icon: "/icons/sonatype-nexus-repository.png" },
     ],
   },
   {

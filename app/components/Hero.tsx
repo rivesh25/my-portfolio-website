@@ -73,7 +73,7 @@ export default function Hero() {
           <h2
             className="animate-fade-in-up delay-200"
             style={{
-              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+              fontFamily: "system-ui, -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif",
               fontSize: "clamp(2.5rem, 8vw, 9rem)",
               lineHeight: 1.1,
               marginBottom: "16px",
